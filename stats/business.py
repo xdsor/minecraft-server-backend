@@ -15,29 +15,33 @@ def get_all_stats():
     result = []
     for name, uuid in user_name_id_mapping.items():
         online = name in players_online_names
-        stats = read_user_stats(uuid)["stats"]
-        stats_custom = stats.get("minecraft:custom")
-        stats_mined = stats.get("minecraft:mined")
-        stats_crafted = stats.get("minecraft:crafted")
-        stats_killed = stats.get("minecraft:killed")
+        try:
+            stats = read_user_stats(uuid)["stats"]
+            stats_custom = stats.get("minecraft:custom")
+            stats_mined = stats.get("minecraft:mined")
+            stats_crafted = stats.get("minecraft:crafted")
+            stats_killed = stats.get("minecraft:killed")
 
-        play_time = stats_custom.get("minecraft:play_time") if stats_custom else 0
-        blocks_mined = sum(stats_mined.values()) if stats_mined else 0
-        items_crafted = sum(stats_crafted.values()) if stats_crafted else 0
-        mob_killed = sum(stats_killed.values()) if stats_killed else 0
-        time_since_death = stats_custom.get("minecraft:time_since_death") if stats_custom else 0
-        time_since_rest = stats_custom.get("minecraft:time_since_rest") if stats_custom else 0
+            play_time = stats_custom.get("minecraft:play_time") if stats_custom else 0
+            blocks_mined = sum(stats_mined.values()) if stats_mined else 0
+            items_crafted = sum(stats_crafted.values()) if stats_crafted else 0
+            mob_killed = sum(stats_killed.values()) if stats_killed else 0
+            time_since_death = stats_custom.get("minecraft:time_since_death") if stats_custom else 0
+            time_since_rest = stats_custom.get("minecraft:time_since_rest") if stats_custom else 0
 
-        result.append({
-            "online": online,
-            "name": name,
-            "play_time": play_time,
-            "blocks_mined": blocks_mined,
-            "items_crafted": items_crafted,
-            "mob_killed": mob_killed,
-            "time_since_death": time_since_death,
-            "time_since_rest": time_since_rest
-        })
+            result.append({
+                "online": online,
+                "name": name,
+                "play_time": play_time,
+                "blocks_mined": blocks_mined,
+                "items_crafted": items_crafted,
+                "mob_killed": mob_killed,
+                "time_since_death": time_since_death,
+                "time_since_rest": time_since_rest
+            })
+        except FileNotFoundError as e:
+            current_app.logger.error(e)
+            continue
     return result
 
 def get_server_time():
