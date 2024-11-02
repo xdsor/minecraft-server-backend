@@ -4,7 +4,7 @@ from pathlib import Path
 
 from flask import current_app
 
-from common.common_constants import MINECRAFT_SERVER_PATH
+from src.common.common_constants import MINECRAFT_SERVER_PATH
 
 
 def read_user_stats(user_id):

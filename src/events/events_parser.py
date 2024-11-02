@@ -1,7 +1,7 @@
 import re
 from datetime import datetime
 
-from common.utils.fsutils import load_log_file
+from src.common.utils.fsutils import load_log_file
 
 
 def parse_last_events():

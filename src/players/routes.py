@@ -1,7 +1,7 @@
 from flask import Blueprint
 
-from players.server_api import retrieve_players_online, retrieve_player_details
-from common.username_id_mappings import user_name_id_mapping
+from src.players.server_api import retrieve_players_online, retrieve_player_details
+from src.common.username_id_mappings import user_name_id_mapping
 
 players_bp = Blueprint('players', __name__)
 

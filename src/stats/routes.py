@@ -1,8 +1,8 @@
 from flask import Blueprint, Response
 
-from common.utils.fsutils import read_user_stats
-from common.username_id_mappings import user_name_id_mapping
-from stats.business import get_server_time, get_all_stats
+from src.common.utils.fsutils import read_user_stats
+from src.common.username_id_mappings import user_name_id_mapping
+from src.stats.business import get_server_time, get_all_stats
 
 stats_bp = Blueprint('stats', __name__)
 

@@ -2,7 +2,7 @@ import json
 
 from flask import Blueprint, Response
 
-from events.events_parser import parse_last_events
+from src.events.events_parser import parse_last_events
 
 events_bp = Blueprint('events', __name__)
 

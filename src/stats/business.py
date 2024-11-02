@@ -1,10 +1,10 @@
 from flask import current_app
 from rcon.source import Client
 
-from common.common_constants import SERVER_HOST, RCON_PASSWORD
-from common.utils.fsutils import read_user_stats
-from players.server_api import retrieve_players_online
-from common.username_id_mappings import user_name_id_mapping
+from src.common.common_constants import SERVER_HOST, RCON_PASSWORD
+from src.common.utils.fsutils import read_user_stats
+from src.players.server_api import retrieve_players_online
+from src.common.username_id_mappings import user_name_id_mapping
 
 
 def get_all_stats():

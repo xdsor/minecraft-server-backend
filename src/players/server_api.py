@@ -3,9 +3,9 @@ import re
 from flask import current_app
 from rcon.source.client import Client
 
-from common.common_constants import SERVER_HOST, RCON_PASSWORD
-from players.models.PlayerDetails import PlayerDetails
-from players.models.PlayerList import PlayerList
+from src.common.common_constants import SERVER_HOST, RCON_PASSWORD
+from src.players.models.PlayerDetails import PlayerDetails
+from src.players.models.PlayerList import PlayerList
 
 
 def retrieve_players_online():
