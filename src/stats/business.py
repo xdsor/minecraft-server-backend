@@ -2,9 +2,21 @@ from flask import current_app
 from rcon.source import Client
 
 from src.common.common_constants import SERVER_HOST, RCON_PASSWORD
-from src.common.utils.fsutils import read_user_stats
+from src.common.utils.fsutils import read_user_stats, read_user_advancements
 from src.players.server_api import retrieve_players_online
 from src.common.username_id_mappings import user_name_id_mapping
+
+
+def _extract_advancements_count(advancements):
+    result = 0
+    for key, value in advancements.items():
+        if not isinstance(value, dict):
+            continue
+        if value["done"]:
+            advancement_type = key.split(":")[1].split("/")[0]
+            if advancement_type in ["story", "nether", "end", "adventure", "husbandry"]:
+                result += 1
+    return result
 
 
 def get_all_stats():
@@ -29,6 +41,9 @@ def get_all_stats():
             time_since_death = stats_custom.get("minecraft:time_since_death") if stats_custom else 0
             time_since_rest = stats_custom.get("minecraft:time_since_rest") if stats_custom else 0
 
+            advancements = read_user_advancements(uuid)
+            advancements_count = _extract_advancements_count(advancements)
+
             result.append({
                 "online": online,
                 "name": name,
@@ -37,7 +52,8 @@ def get_all_stats():
                 "items_crafted": items_crafted,
                 "mob_killed": mob_killed,
                 "time_since_death": time_since_death,
-                "time_since_rest": time_since_rest
+                "time_since_rest": time_since_rest,
+                "advancements_count": advancements_count
             })
         except FileNotFoundError as e:
             current_app.logger.error(e)

@@ -11,6 +11,10 @@ def read_user_stats(user_id):
     with open(os.path.join(current_app.config[MINECRAFT_SERVER_PATH], 'world', 'stats', f"{str(user_id)}.json"), 'r') as f:
         return json.load(f)
 
+def read_user_advancements(user_id):
+    with open(os.path.join(current_app.config[MINECRAFT_SERVER_PATH], 'world', 'advancements', f"{str(user_id)}.json"), 'r') as f:
+        return json.load(f)
+
 def get_user_ids_from_stats():
     dirent = Path(current_app.config[MINECRAFT_SERVER_PATH], 'world', 'stats')
     return [f.name.replace(".json", "") for f in dirent.iterdir() if f.is_file()]
