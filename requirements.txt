@@ -4,7 +4,7 @@ certifi==2024.8.30
 cffi==1.16.0
 charset-normalizer==3.4.0
 click==8.1.7
-cryptography==42.0.3
+cryptography==42.0.4
 Flask==3.0.3
 Flask-Cors==5.0.0
 gunicorn==23.0.0
@@ -22,3 +22,4 @@ rcon==2.4.6
 requests==2.32.3
 urllib3==2.2.3
 Werkzeug==3.0.6
+python-json-logger @ https://github.com/nhairs/python-json-logger/releases/download/v3.0.0/python_json_logger-3.0.0-py3-none-any.whl#sha256=45c59c69d4a4e398b37e77c6b6f0f1663c829516a5063ff4c2bc0ba314b1f6f7
