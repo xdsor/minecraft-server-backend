@@ -6,6 +6,14 @@ from flask import current_app
 
 from src.common.common_constants import MINECRAFT_SERVER_PATH
 
+def read_mobs_mapping():
+    with open(os.path.join(os.curdir, 'mob_id_to_name_mapping.json')) as f:
+        return json.load(f)
+
+def read_item_mapping():
+    with open(os.path.join(os.curdir, 'item_id_to_name_mapping.json')) as f:
+        return json.load(f)
+
 
 def read_user_stats(user_id):
     with open(os.path.join(current_app.config[MINECRAFT_SERVER_PATH], 'world', 'stats', f"{str(user_id)}.json"), 'r') as f:

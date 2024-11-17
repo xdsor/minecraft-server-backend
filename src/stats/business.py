@@ -2,7 +2,7 @@ from flask import current_app
 from rcon.source import Client
 
 from src.common.common_constants import SERVER_HOST, RCON_PASSWORD
-from src.common.utils.fsutils import read_user_stats, read_user_advancements
+from src.common.utils.fsutils import read_user_stats, read_user_advancements, read_item_mapping, read_mobs_mapping
 from src.players.server_api import retrieve_players_online
 from src.common.username_id_mappings import user_name_id_mapping
 
@@ -71,6 +71,48 @@ def get_server_time():
         daytime = _parse_time(daytime_response)
 
         return {'day': day, 'game_time': game_time, 'daytime': daytime}
+
+
+def get_user_stats(user_id):
+    result = []
+
+    item_mapping = read_item_mapping()
+    mob_mapping = read_mobs_mapping()
+    raw_stats = read_user_stats(user_id)["stats"]
+
+
+    stats_fields = [
+        ("Добыто блоков", "minecraft:mined", item_mapping),
+        ("Сломано предметов", "minecraft:broken", item_mapping),
+        ("Скрафчено предметов", "minecraft:crafted", item_mapping),
+        ("Мобов убито", "minecraft:killed", mob_mapping),
+        ("Убит(а) мобами", "minecraft:killed_by", mob_mapping),
+    ]
+
+    for item in stats_fields:
+        try:
+            result.append({
+                "title": item[0],
+                "stats": _replace_ids_to_names(item[2], raw_stats[item[1]]),
+            })
+        except KeyError as ignored:
+            # Значит у пользователя еще нет этой статистики
+            pass
+
+    return result
+
+
+def _replace_ids_to_names(mapping, stats):
+    result = []
+    for stat, value in stats.items():
+        item_name_readable = mapping.get(stat)
+        if item_name_readable:
+            result.append([item_name_readable, value])
+        else:
+            # todo: потерянный маппинг, можно добавить лог
+            pass
+    return result
+
 
 def _parse_time(response):
     return int(response.split("The time is ")[1])
